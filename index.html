@@ -63,7 +63,14 @@ button{font:inherit;cursor:pointer}
 .bar i{display:block;height:100%;background:var(--red);border-radius:10px;transition:width .35s}
 .f{margin:0 0 24px}
 label.q{display:block;font-weight:700;font-size:1.05rem;line-height:1.45;margin-bottom:8px;color:var(--red)}
-.sub{margin:0 0 10px;font-size:.92rem}
+.sub{
+  margin:0 0 10px;
+  font-size:.82rem;     /* nhỏ hơn */
+  line-height:1.5;
+  color:#7a5a5d;
+  white-space:normal;   /* cho phép xuống dòng */
+  word-break:break-word;
+}
 input[type=text],input[type=date],textarea{width:100%;font:inherit;color:var(--ink);background:#fff;border:2px solid var(--red);border-radius:10px;padding:12px 14px}
 textarea{min-height:170px;resize:vertical}
 input:focus,textarea:focus{outline:3px solid var(--ink);outline-offset:1px}
@@ -772,7 +779,7 @@ const WHEN = ['Càng sớm càng tốt','Trong tháng tới','Trong 3 tháng t�
 const STEPS = [
  {t:'Cô chú là ai ạ?', f:[
   {k:'ten',type:'text',l:'Tên hoặc biệt danh của cô chú',ph:'Cô chú để trống nếu muốn ẩn danh ạ'},
-  {k:'quan_he',type:'text',l:'Cô chú quen mẹ con như thế nào ạ?',ph:'Ví dụ: đẻ ra mẹ con, đồng nghiệp, bạn học…'},
+  {k:'quan_he',type:'text',l:'Cô chú quen mẹ con như thế nào ạ?',s:'Ví dụ: đẻ ra mẹ con, đồng nghiệp, bạn học…'},
   {k:'an_danh',type:'check',l:'Gửi ẩn danh (mẹ con sẽ không thấy tên cô chú)'}]},
  {t:'Một kỷ niệm', f:[
   {k:'ky_niem',type:'area',l:'Có kỷ niệm nào với mẹ con mà cô chú vẫn nhớ đến tận bây giờ không ạ?',
@@ -799,7 +806,7 @@ function field(f) {
   const v = D[f.k] ?? '';
   let h = '';
   if (f.type !== 'check') h += `<label class="q" for="${f.k}">${f.l}</label>`;
-  if (f.s) h += `<p class="sub">${f.s}</p>`;
+  if (f.s) h += `<p class="sub hint-text">${f.s}</p>`;
   if (f.type === 'text') h += `<input type="text" id="${f.k}" data-k="${f.k}" maxlength="${f.k==='ghi_chu_hen'?300:100}" value="${esc(v)}" placeholder="${esc(f.ph||'')}">`;
   if (f.type === 'date') h += `<input type="date" id="${f.k}" data-k="${f.k}" value="${esc(v)}">`;
   if (f.type === 'area') {

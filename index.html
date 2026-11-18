@@ -19,6 +19,11 @@ main{max-width:600px;margin:0 auto;padding:22px 14px 60px}
 section{display:none}section.on{display:block}
 .center{text-align:center}
 .ticket{position:relative;background:var(--pink);color:var(--red);padding:26px 40px;margin:0 0 18px;text-align:left;
+        .ticket input,
+.ticket textarea{
+  width:100%;
+  max-width:100%;
+}
  -webkit-mask:radial-gradient(circle 5px at 0 10px,#0000 96%,#000) left/51% 20px repeat-y,radial-gradient(circle 5px at 100% 10px,#0000 96%,#000) right/51% 20px repeat-y;
  mask:radial-gradient(circle 5px at 0 10px,#0000 96%,#000) left/51% 20px repeat-y,radial-gradient(circle 5px at 100% 10px,#0000 96%,#000) right/51% 20px repeat-y}
 .ticket::before{content:"";position:absolute;inset:9px 27px;border:2px solid currentColor;border-radius:10px;opacity:.45;pointer-events:none}
@@ -76,7 +81,31 @@ label.q{display:block;font-weight:700;font-size:1.05rem;line-height:1.45;margin-
   line-height:1.6;
   color:#8a4a4e;
 }
-input[type=text],input[type=date],textarea{width:100%;font:inherit;color:var(--ink);background:#fff;border:2px solid var(--red);border-radius:10px;padding:12px 14px}
+input[type=text],
+input[type=date],
+textarea{
+  display:block;
+  width:100%;
+  max-width:100%;
+  min-width:0;
+  font:inherit;
+  color:var(--ink);
+  background:#fff;
+  border:2px solid var(--red);
+  border-radius:10px;
+  padding:12px 14px;
+  box-sizing:border-box;
+}
+ input[type=date]{
+  appearance:none;
+  -webkit-appearance:none;
+  min-height:50px;
+}
+ .f{
+  margin:0 0 24px;
+  width:100%;
+  overflow:hidden;
+}
  input::placeholder,
 textarea::placeholder{
   color:#9b7578;
@@ -119,10 +148,17 @@ input:focus,textarea:focus{outline:3px solid var(--ink);outline-offset:1px}
 .nav{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
 .nav .btn{flex:1 1 130px}
 .err{background:#fff;border:2px solid var(--red);border-radius:10px;padding:10px 14px;margin:0 0 16px;color:var(--red);font-weight:600}
-.pv{ background:#fff; border-radius:12px; padding:14px; margin:12px 0; border:1px solid #f0cccc; box-shadow:0 2px 8px rgba(0,0,0,.04); }
+.pv{
+  background:#fff;
+  border:1px solid #f0d4d4;
+  border-radius:12px;
+  padding:14px;
+  margin:12px 0;
+  box-shadow:0 2px 8px rgba(0,0,0,.04);
+}
 
 .pv + .pv{
-  border-top:1px dashed #e4b3b6;
+  border-top:none;
 }
 
 .pv b{
@@ -900,15 +936,21 @@ const STEPS = [
  {t:'Điều cô chú muốn nói', f:[
   {k:'dieu_muon_noi',type:'area',l:'Nếu có thể nói với mẹ con một điều, cô chú muốn nói điều gì ạ?',
    h:['Một điều cô chú trân trọng ở mẹ con','Một điều cô chú nghĩ Thảo Ly tuổi 26 nên nghe','Một lời khuyên cô chú muốn dành cho mẹ con','Một điều cô chú mong Thảo Ly đừng bao giờ quên']},
-  {k:'dieu_gin_giu',type:'area',l:'Có điều gì ở mẹ con mà cô chú mong Thảo Ly sẽ luôn giữ gìn trong suốt cuộc đời không ạ?',s:'Câu này không bắt buộc, cô chú có thể bỏ qua.'}]},
+  {k:'dieu_gin_giu',type:'area',l:'Có điều gì ở mẹ con mà cô chú mong Thảo Ly sẽ luôn giữ gìn trong suốt cuộc đời không ạ?',s:'Câu này không bắt buộc, cô chú có thể bỏ qua.',review:'🩷 Điều nên giữ gìn'}]},
  {t:'Lời chúc tuổi 26', f:[{k:'loi_chuc',type:'area',l:'Cô chú muốn gửi đến mẹ con lời chúc gì cho tuổi 26 ạ?'}]},
  {t:'Một điều muốn làm cùng nhau', f:[
   {k:'hoat_dong',type:'area',l:'Có điều gì cô chú muốn làm cùng mẹ con trong thời gian tới không ạ?',s:'Có thể là một buổi cà phê, một chuyến đi, một bữa ăn ngon, một bộ phim, hay đơn giản là một buổi call/gặp nhau để update cuộc sống.'},
   {k:'thoi_gian',type:'chips',l:'Cô chú muốn thực hiện điều đó khi nào ạ?',o:WHEN},
-  {k:'ngay_hen',type:'date',l:'Nếu đã có ngày dự kiến, cô chú có thể chọn ngày ở đây.',s:'Chưa có ngày thì cô chú cứ để trống ạ.'},
+  {k:'ngay_hen',
+ type:'date',
+ l:'Nếu đã có ngày dự kiến, cô chú có thể chọn ngày ở đây.',
+ review:'📅 Ngày hẹn dự kiến',
+ s:'Chưa có ngày thì cô chú cứ để trống ạ.'
+},
+
   {k:'ghi_chu_hen',type:'text',l:'Có điều gì muốn nhắn thêm về cuộc hẹn này không ạ?'}]},
  {t:'Một lời nhắn cho Thảo Ly tương lai', f:[
-  {k:'loi_nhan_tuong_lai',type:'area',l:'Nếu một ngày nào đó mẹ con mở lại lời nhắn này vào một ngày không vui hoặc cần động lực, cô chú muốn mẹ con nhớ điều gì ạ?'}]},
+  {k:'loi_nhan_tuong_lai',type:'area',l:'Nếu một ngày nào đó mẹ con mở lại lời nhắn này vào một ngày không vui hoặc cần động lực, cô chú muốn mẹ con nhớ điều gì ạ?',review:'💌 Lời nhắn cho Thảo Ly tương lai'}]},
  {t:'Một tấm ảnh kỷ niệm', f:[
   {k:'anh',type:'file',l:'Cô chú có tấm ảnh nào muốn gửi cho mẹ con không ạ? Con mong là có!',s:'Ảnh chung, một khoảnh khắc đáng nhớ, hay bất kỳ tấm ảnh nào cô chú thích. Chọn một ảnh JPG, PNG hoặc HEIC, tối đa 5 MB.'},
   {k:'anh_chu_thich',type:'text',l:'Cô chú muốn viết vài dòng bên dưới tấm ảnh không ạ?'}]}
@@ -976,17 +1018,30 @@ function render(a = true) {
   } else {
     $('#stepname').textContent = 'Xem lại';
     let h = '<h2>Xem lại lời nhắn ♡</h2><p class="sub">Đọc lại một lần trước khi tụi con cất vào lọ nhé.</p>';
-    STEPS.forEach((st, i) => st.f.forEach(f => {
-      if (f.type === 'check') return;
-      const v = f.type === 'file'
- ? (FILE ? FILE.name : '')
- : (D[f.k] || '');
+    STEPS.forEach((st, i) => {
+  st.f.forEach(f => {
 
-if (!v) return;
+    if (f.type === 'check') return;
 
-h += `<div class="pv"><b>${f.l}</b>${v ? `<p>${esc(v)}</p>` : '<p class="skip">Cô chú đã bỏ qua câu này</p>'}<button type="button" data-edit="${i}">✏️ Chỉnh lại</button>
-</div>`;
-    }));
+    const v =
+      f.type === 'file'
+      ? (FILE ? FILE.name : '')
+      : (D[f.k] || '');
+
+    // Không hiện câu bỏ trống
+    if (!v) return;
+
+    h += `
+      <div class="pv">
+        <b>${f.review || f.l}</b>
+        <p>${esc(v)}</p>
+        <button type="button" data-edit="${i}">
+          ✏️ Chỉnh lại
+        </button>
+      </div>
+    `;
+  });
+});
     if (D.an_danh) h += '<div class="pv"><b>Gửi ẩn danh</b><p>Có, tên của cô chú sẽ không được lưu.</p></div>';
     $('#body').innerHTML = h;
     $('#next').textContent = 'Gửi lời nhắn ♡';

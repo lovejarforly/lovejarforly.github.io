@@ -1024,12 +1024,12 @@ function render(a = true) {
     if (f.type === 'check') return;
 
     const v =
-      f.type === 'file'
-      ? (FILE ? FILE.name : '')
-      : (D[f.k] || '');
+  f.type === 'file'
+    ? (FILE ? FILE.name : '')
+    : (D[f.k] ?? '');
+          console.log(f.k, D[f.k]);
 
     // Không hiện câu bỏ trống
-    if (!v) return;
 
     h += `
       <div class="pv">
@@ -1043,6 +1043,8 @@ function render(a = true) {
   });
 });
     if (D.an_danh) h += '<div class="pv"><b>Gửi ẩn danh</b><p>Có, tên của cô chú sẽ không được lưu.</p></div>';
+          console.log(D);
+
     $('#body').innerHTML = h;
     $('#next').textContent = 'Gửi lời nhắn ♡';
     $('#skipnote').style.display = 'none';

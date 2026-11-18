@@ -1,0 +1,377 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lọ lời yêu thương · Admin</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root {
+  --bg:#fff8f2; --paper:#fffdfb; --ink:#49372f;
+  --muted:#927e73; --pink:#d98283; --line:#efdfd4;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font-family:system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+.wrap{max-width:900px;margin:auto;padding:25px 16px 60px}
+h1{font-family:Georgia,serif;font-weight:500;font-size:38px;margin:10px 0}
+.sub{color:var(--muted);font-size:14px}
+.panel,.entry{
+  background:var(--paper);border:1px solid var(--line);
+  border-radius:20px;padding:22px;margin-bottom:15px;
+}
+.login{max-width:430px;margin:9vh auto}
+label{display:block;font-size:13px;color:var(--muted);margin:15px 0 6px}
+input{
+  width:100%;padding:13px;border:1px solid var(--line);
+  border-radius:11px;font-size:15px;background:white;color:var(--ink);
+}
+button{
+  border:0;border-radius:11px;padding:12px 17px;
+  background:var(--pink);color:white;font-weight:650;cursor:pointer;
+}
+button.secondary{background:#f3e8e0;color:var(--ink)}
+button:disabled{opacity:.5}
+.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:16px}
+.hidden{display:none!important}
+.error{color:#a33d43;font-size:13px;margin-top:12px}
+.notice{color:var(--muted);font-size:12px;line-height:1.6}
+.stats{display:flex;gap:10px;flex-wrap:wrap;margin:20px 0}
+.stat{background:white;border:1px solid var(--line);border-radius:13px;padding:12px 17px}
+.stat b{display:block;font-size:23px}
+.stat span{font-size:12px;color:var(--muted)}
+.toolbar{display:flex;gap:10px;margin:20px 0}
+.toolbar input{flex:1;min-width:0}
+.entry{padding:17px}
+.entryhead{display:flex;justify-content:space-between;gap:10px}
+.name{font-weight:700}
+.meta,.small{font-size:12px;color:var(--muted);margin-top:5px}
+.excerpt{font-family:Georgia,serif;font-size:17px;line-height:1.5;margin:13px 0}
+.detail{border-top:1px dashed var(--line);margin-top:14px;padding-top:12px}
+.answer{margin:13px 0;line-height:1.6;overflow-wrap:anywhere}
+.answer strong{display:block;font-size:11px;color:var(--muted);margin-bottom:4px}
+.answer p{white-space:pre-wrap;margin:0}
+.photo{max-width:100%;max-height:430px;border-radius:12px;margin-top:10px}
+.link{background:none;color:#a85e61;padding:7px 0}
+.empty{text-align:center;color:var(--muted);padding:35px}
+@media(max-width:550px){
+ .wrap{padding:18px 12px 40px}
+ h1{font-size:32px}
+ .panel{padding:18px}
+ .toolbar{flex-wrap:wrap}
+ .toolbar button{width:100%}
+}
+</style>
+</head>
+<body>
+<main class="wrap">
+
+<section id="login" class="panel login">
+  <div class="sub">LỌ LỜI YÊU THƯƠNG · 2026</div>
+  <h1>Chào Ly ♡</h1>
+  <p class="sub">Đăng nhập để đọc những lời nhắn mọi người gửi.</p>
+
+  <form id="loginForm">
+    <label>Email</label>
+    <input id="email" type="email"
+      value="lythnguyenx@gmail.com" required>
+
+    <label>Mật khẩu Supabase</label>
+    <input id="password" type="password"
+      autocomplete="current-password" required>
+
+    <div class="actions">
+      <button id="loginBtn" type="submit">Đăng nhập ♡</button>
+    </div>
+  </form>
+
+  <div class="actions">
+    <button class="secondary" id="resetBtn" type="button">
+      Quên mật khẩu?
+    </button>
+  </div>
+  <p class="notice">
+    Sử dụng mật khẩu của tài khoản Supabase.
+    Không chia sẻ tài khoản này với người khác.
+  </p>
+  <p id="loginError" class="error"></p>
+</section>
+
+<section id="dashboard" class="hidden">
+  <div style="display:flex;justify-content:space-between;gap:12px;align-items:center">
+    <div>
+      <div class="sub">LỌ LỜI YÊU THƯƠNG · 2026</div>
+      <h1>Những lời nhắn ♡</h1>
+      <p class="sub">Góc nhỏ chỉ Ly mới mở được.</p>
+    </div>
+    <button class="secondary" id="logoutBtn">Đăng xuất</button>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><b id="total">0</b><span>Tổng lời nhắn</span></div>
+    <div class="stat"><b id="photos">0</b><span>Có ảnh</span></div>
+  </div>
+
+  <div class="toolbar">
+    <input id="search" type="search" placeholder="Tìm lời nhắn...">
+    <button class="secondary" id="refreshBtn">Làm mới ↻</button>
+  </div>
+
+  <div id="list"><div class="empty">Đang mở chiếc lọ...</div></div>
+  <p class="notice">Nhớ đăng xuất sau khi xem xong nhé.</p>
+</section>
+</main>
+
+<script>
+const SUPABASE_URL =
+  'https://exextzhxipcyshqjufqi.supabase.co';
+
+// Thay dòng bên dưới bằng đúng publishable/anon key
+// đang sử dụng trong file index.html của website.
+const SUPABASE_KEY = 'sb_publishable_zC4Rpcx5EJzCK-4oWFL48Q_VUq3EUol';
+
+const ADMIN_EMAIL = 'lythnguyenx@gmail.com';
+const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+let messages = [];
+
+const $ = id => document.getElementById(id);
+
+function escapeHTML(value) {
+  return String(value ?? '').replace(/[&<>"']/g, c => ({
+    '&':'&amp;', '<':'&lt;', '>':'&gt;',
+    '"':'&quot;', "'":'&#39;'
+  }[c]));
+}
+
+function showLogin(message='') {
+  $('login').classList.remove('hidden');
+  $('dashboard').classList.add('hidden');
+  $('loginError').textContent = message;
+}
+
+function showDashboard() {
+  $('login').classList.add('hidden');
+  $('dashboard').classList.remove('hidden');
+}
+
+async function checkSession() {
+  const {data:{session}} = await db.auth.getSession();
+
+  if (!session) {
+    showLogin();
+    return;
+  }
+
+  const {data:{user}, error} = await db.auth.getUser();
+
+  if (error || !user ||
+      user.email?.toLowerCase() !== ADMIN_EMAIL) {
+    await db.auth.signOut();
+    showLogin('Tài khoản này không có quyền quản trị.');
+    return;
+  }
+
+  showDashboard();
+  loadMessages();
+}
+
+$('loginForm').addEventListener('submit', async e => {
+  e.preventDefault();
+
+  const btn = $('loginBtn');
+  btn.disabled = true;
+  btn.textContent = 'Đang đăng nhập...';
+
+  const {error} = await db.auth.signInWithPassword({
+    email: $('email').value.trim(),
+    password: $('password').value
+  });
+
+  btn.disabled = false;
+  btn.textContent = 'Đăng nhập ♡';
+
+  if (error) {
+    showLogin('Đăng nhập thất bại. Kiểm tra lại email và mật khẩu nhé.');
+    return;
+  }
+
+  await checkSession();
+});
+
+$('resetBtn').addEventListener('click', async () => {
+  const email = $('email').value.trim();
+
+  if (email.toLowerCase() !== ADMIN_EMAIL) {
+    $('loginError').textContent = 'Email không đúng.';
+    return;
+  }
+
+  const {error} = await db.auth.resetPasswordForEmail(email, {
+    redirectTo: location.href.split('?')[0]
+  });
+
+  $('loginError').textContent = error
+    ? 'Chưa gửi được email. Thử lại nhé.'
+    : 'Đã gửi yêu cầu đặt lại mật khẩu. Kiểm tra email nhé.';
+});
+
+$('logoutBtn').addEventListener('click', async () => {
+  await db.auth.signOut();
+  messages = [];
+  showLogin();
+});
+
+$('refreshBtn').addEventListener('click', loadMessages);
+$('search').addEventListener('input', renderMessages);
+
+async function loadMessages() {
+  $('list').innerHTML = '<div class="empty">Đang tải lời nhắn...</div>';
+
+  const {data, error} = await db
+    .from('loi_nhan')
+    .select('*')
+    .order('tao_luc', {ascending:false});
+
+  if (error) {
+    $('list').innerHTML =
+      '<div class="empty">Lỗi tải dữ liệu: ' +
+      escapeHTML(error.message) + '</div>';
+    return;
+  }
+
+  messages = data || [];
+  $('total').textContent = messages.length;
+  $('photos').textContent =
+    messages.filter(x => x.anh_path).length;
+
+  renderMessages();
+}
+
+function renderMessages() {
+  const q = $('search').value.trim().toLowerCase();
+
+  const filtered = messages.filter(row =>
+    JSON.stringify(row).toLowerCase().includes(q)
+  );
+
+  if (!filtered.length) {
+    $('list').innerHTML =
+      '<div class="empty">Chưa tìm thấy lời nhắn nào ♡</div>';
+    return;
+  }
+
+  $('list').innerHTML = filtered.map((row, index) => {
+    const name = row.an_danh
+      ? 'Một người bạn giấu tên'
+      : (row.ten || 'Người gửi chưa ghi tên');
+
+    const preview = row.loi_chuc ||
+      row.dieu_muon_noi ||
+      row.ky_niem ||
+      'Đã gửi một lời nhắn ♡';
+
+    return `
+      <article class="entry">
+        <div class="entryhead">
+          <div>
+            <div class="name">${escapeHTML(name)}</div>
+            <div class="meta">${escapeHTML(row.quan_he || '')}</div>
+            <div class="meta">${escapeHTML(row.tao_luc || '')}</div>
+          </div>
+          <span class="small">${row.anh_path ? '📷 Có ảnh' : ''}</span>
+        </div>
+
+        <div class="excerpt">${escapeHTML(preview)}</div>
+
+        <button class="link" onclick="toggleDetail(${index}, this)">
+          Đọc đầy đủ ↓
+        </button>
+
+        <div class="detail hidden" id="detail-${index}">
+          ${renderDetail(row, index)}
+        </div>
+      </article>
+    `;
+  }).join('');
+}
+
+const LABELS = {
+  ten:'Tên người gửi',
+  quan_he:'Mối quan hệ',
+  ky_niem:'Kỷ niệm',
+  dieu_muon_noi:'Điều muốn nói',
+  dieu_gin_giu:'Điều muốn gìn giữ',
+  loi_chuc:'Lời chúc tuổi 26',
+  hoat_dong:'Điều muốn làm cùng Ly',
+  thoi_gian:'Thời gian mong muốn',
+  ngay_hen:'Ngày hẹn mong muốn',
+  ghi_chu_hen:'Ghi chú cho buổi hẹn',
+  loi_nhan_tuong_lai:'Lời nhắn cho Ly tương lai',
+  anh_chu_thich:'Chú thích ảnh'
+};
+
+function renderDetail(row, index) {
+  let html = '';
+
+  for (const [key, label] of Object.entries(LABELS)) {
+    if (row[key]) {
+      html += `
+        <div class="answer">
+          <strong>${escapeHTML(label)}</strong>
+          <p>${escapeHTML(row[key])}</p>
+        </div>`;
+    }
+  }
+
+  if (row.anh_path) {
+    html += `
+      <div class="answer">
+        <strong>Ảnh kỷ niệm</strong>
+        <div id="photo-${index}" class="small">Đang tải ảnh...</div>
+      </div>`;
+  }
+
+  return html || '<p class="small">Không có nội dung.</p>';
+}
+
+async function toggleDetail(index, button) {
+  const box = $('detail-' + index);
+  const opening = box.classList.contains('hidden');
+
+  box.classList.toggle('hidden');
+  button.textContent = opening ? 'Thu gọn ↑' : 'Đọc đầy đủ ↓';
+
+  if (!opening) return;
+
+  const row = messages[index];
+
+  if (row.anh_path) {
+    const target = $('photo-' + index);
+
+    const {data, error} = await db.storage
+      .from('anh')
+      .createSignedUrl(row.anh_path, 3600);
+
+    if (error) {
+      target.textContent = 'Không mở được ảnh.';
+      return;
+    }
+
+    target.innerHTML = `
+      <a href="${escapeHTML(data.signedUrl)}"
+         target="_blank" rel="noopener">Mở ảnh ở tab mới</a>
+      <br>
+      <img class="photo" src="${escapeHTML(data.signedUrl)}"
+           alt="Ảnh kỷ niệm">
+    `;
+  }
+}
+
+checkSession();
+</script>
+</body>
+</html>

@@ -102,129 +102,27 @@ main{position:relative;z-index:1}
 .conf{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:5}
 .conf span{position:absolute;top:-40px;color:var(--red);animation:confall linear both}
 @keyframes confall{to{transform:translateY(112vh) rotate(360deg)}}
-/* ===== BAP BI YAWNING ===== */
-.yawnbox {
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  gap: 14px;
-  margin: 30px 0 70px;
-}
-
-.yawn, .hug {
-  width: min(40vw, 150px);
-  display: block;
-  object-fit: contain;
-  transform-origin: 50% 100%;
-}
-
-.yawn {
-  animation: yawn 5s ease-in-out infinite;
-}
-
-.hug {
-  animation: rock 3s ease-in-out infinite;
-}
-
-@keyframes yawn {
-  0%,55%,100% { transform: scale(1) rotate(0); }
-  65% { transform: scale(1.1,.93) rotate(-5deg); }
-  75% { transform: scale(.94,1.1) rotate(4deg); }
-  85% { transform: scale(1.05,.98) rotate(-2deg); }
-}
-
-@keyframes rock {
-  50% { transform: rotate(5deg) translateY(-6px); }
-}
-
-/* ===== SPEECH BUBBLE ===== */
-.say {
-  position: relative;
-  max-width: 150px;
-  margin: 0 0 40px;
-  padding: 10px 14px;
-  background: var(--red);
-  color: #fff !important;
-  border-radius: 14px;
-  font-weight: 700;
-  font-size: .85rem;
-  line-height: 1.4;
-  text-align: left;
-}
-
-.say::before {
-  content: "";
-  position: absolute;
-  left: -8px;
-  bottom: 12px;
-  border: 8px solid transparent;
-  border-right-color: var(--red);
-  border-left: 0;
-}
-
-/* ===== SOBA WALKING ===== */
-.walker {
-  position: fixed;
-  left: 0;
-  bottom: 0;
-  width: 90px;
-  pointer-events: none;
-  z-index: 3;
-  animation: walk 18s linear infinite;
-}
-
-.walker img {
-  display: block;
-  width: 100%;
-  height: auto;
-  object-fit: contain;
-  transform-origin: 50% 100%;
-  animation: waddle .6s ease-in-out infinite;
-}
-
-@keyframes walk {
-  0% { transform: translateX(-100px) scaleX(1); }
-  46% { transform: translateX(calc(100vw + 20px)) scaleX(1); }
-  50% { transform: translateX(calc(100vw + 20px)) scaleX(-1); }
-  96% { transform: translateX(-100px) scaleX(-1); }
-  100% { transform: translateX(-100px) scaleX(1); }
-}
-
-@keyframes waddle {
-  0%,100% { transform: rotate(-8deg); }
-  25%,75% { transform: translateY(-7px) rotate(0); }
-  50% { transform: rotate(8deg); }
-}
-
-/* ===== SOBA PEEKING ===== */
-.peek {
-  height: 62px;
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  margin-bottom: -6px;
-}
-
-.peek img {
-  width: 118px;
-  height: auto;
-  display: block;
-  object-fit: contain;
-  animation: peek 7s ease-in-out infinite;
-}
-
-@keyframes peek {
-  0%,14% { transform: translateY(105%); }
-  24%,60% { transform: translateY(12%) rotate(0); }
-  34% { transform: translateY(12%) rotate(-5deg); }
-  46% { transform: translateY(12%) rotate(5deg); }
-  70%,100% { transform: translateY(105%); }
-}
- @media (prefers-reduced-motion:reduce){
-  *{animation:none!important;transition:none!important}
-  .walker{display:none}
-}
+.yawnbox{display:flex;align-items:flex-end;justify-content:center;gap:14px;margin:30px 0 70px}
+.yawn{width:min(34vw,130px);display:block;transform-origin:50% 100%;animation:yawn 5s ease-in-out infinite}
+.duo{display:flex;align-items:flex-end;justify-content:center;gap:10px;margin:0 0 26px}
+.hug{width:min(46vw,190px);display:block;transform-origin:50% 100%;animation:rock 3s ease-in-out infinite}
+.sit{width:min(30vw,120px);display:block;transform-origin:50% 100%;animation:rock 3.4s ease-in-out -1s infinite}
+@keyframes yawn{0%,55%,100%{transform:scale(1) rotate(0)}65%{transform:scale(1.1,.93) rotate(-5deg)}75%{transform:scale(.94,1.1) rotate(4deg)}85%{transform:scale(1.05,.98) rotate(-2deg)}}
+@keyframes rock{50%{transform:rotate(5deg) translateY(-6px)}}
+.say{position:relative;max-width:150px;margin:0 0 40px;padding:10px 14px;background:var(--red);color:#fff!important;border-radius:14px;font-weight:700;font-size:.85rem;line-height:1.4;text-align:left}
+.say::before{content:"";position:absolute;left:-8px;bottom:12px;border:8px solid transparent;border-right-color:var(--red);border-left:0}
+.say.c{max-width:none;display:inline-block;margin:0 0 14px;text-align:center}
+.say.c::before{left:calc(50% - 8px);bottom:-8px;border:8px solid transparent;border-top-color:var(--red);border-bottom:0}
+.walker{position:fixed;left:0;bottom:0;width:78px;pointer-events:none;z-index:3;animation:walk 18s linear infinite}
+.walker img{display:block;width:100%;transform-origin:50% 100%;animation:waddle .6s ease-in-out infinite}
+@keyframes walk{0%{transform:translateX(-100px) scaleX(1)}46%{transform:translateX(calc(100vw + 20px)) scaleX(1)}50%{transform:translateX(calc(100vw + 20px)) scaleX(-1)}96%{transform:translateX(-100px) scaleX(-1)}100%{transform:translateX(-100px) scaleX(1)}}
+@keyframes waddle{0%,100%{transform:rotate(-8deg)}25%,75%{transform:translateY(-7px) rotate(0)}50%{transform:rotate(8deg)}}
+.peek{height:64px;overflow:hidden;display:flex;justify-content:center;align-items:flex-end;gap:28px;margin-bottom:-6px}
+.peek img{width:96px;display:block;animation:peek 8s ease-in-out infinite}
+.peek img.b{width:118px;animation-delay:-4s}
+@keyframes peek{0%,14%{transform:translateY(105%)}24%,58%{transform:translateY(10%) rotate(0)}33%{transform:translateY(10%) rotate(-5deg)}45%{transform:translateY(10%) rotate(5deg)}70%,100%{transform:translateY(105%)}}
+@media (prefers-reduced-motion:reduce){.walker{display:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
@@ -239,32 +137,26 @@ main{position:relative;z-index:1}
     <p class="hello">Meo! Tụi con có một món quà sinh nhật cho mẹ, và cần cô chú giúp.</p>
   </div>
   <div class="cats">
-    <figure class="pola"><span class="bubble">Meo!</span><div class="ph"><span>🐾</span><img src="bapbi-mat.jpg" alt="Bắp Bi" onerror="this.remove()"></div><figcaption>Bắp Bi</figcaption></figure>
-    <figure class="pola b"><span class="bubble" style="animation-delay:3s">Meo meo ♡</span><div class="ph"><span>🐾</span><img src="mi-soba.jpg" alt="Thảo Mì Soba" onerror="this.remove()"></div><figcaption>Thảo Mì Soba</figcaption></figure>
+    <figure class="pola"><span class="bubble">Meo!</span><div class="ph"><span>🐾</span><img src="bapbi-ngap-goc.jpg" alt="Bắp Bi" onerror="this.remove()"></div><figcaption>Bắp Bi</figcaption></figure>
+    <figure class="pola b"><span class="bubble" style="animation-delay:3s">Meo meo ♡</span><div class="ph"><span>🐾</span><img src="soba-polo.jpg" alt="Thảo Mì Soba" onerror="this.remove()"></div><figcaption>Thảo Mì Soba</figcaption></figure>
   </div>
   <div class="ticket"><i class="code l">231126</i><i class="code r">231126</i>
-    <p>Chào cô chú! Tụi con là Bắp Bi và Thảo Mì Soba. Sắp tới là sinh nhật tuổi 26 của mẹ con rồi.</p>
+    <p>Chào cô chú! Tụi con là Bắp Bi và Thảo Mì Soba, hai đứa con mèo của mẹ. Sắp tới là sinh nhật tuổi 26 của mẹ con rồi.</p>
     <p>Một năm vừa rồi mẹ tụi con trải qua nhiều biến động lắm. Ngoài việc đòi ăn và ỉa thật nhiều, tụi con nghĩ món quà lớn nhất mẹ có thể nhận được chính là lời chúc của những người mẹ thương.</p>
     <p>Nếu cô chú có vài phút, cô chú để lại cho mẹ một lời nhắn giúp tụi con nhé. Tụi con sẽ cất thật kỹ vào chiếc lọ này.</p>
   </div>
-  <p class="meta">Sẽ mất khoảng 2–4 phút. Không cần tạo tài khoản. Không phải link lừa đảo.</p>
+  <p class="meta">Chỉ mất khoảng 2–4 phút. Không cần tạo tài khoản. Không phải link lừa đảo!</p>
   <button class="btn" id="start">Gửi một lời nhắn ♡</button>
-<div class="paws" aria-hidden="true"><span style="--i:0">🐾</span><span style="--i:1">🐾</span><span style="--i:2">🐾</span><span style="--i:3">🐾</span><span style="--i:4">🐾</span><span style="--i:5">🐾</span></div>
-
+  <div class="paws" aria-hidden="true"><span style="--i:0">🐾</span><span style="--i:1">🐾</span><span style="--i:2">🐾</span><span style="--i:3">🐾</span><span style="--i:4">🐾</span><span style="--i:5">🐾</span></div>
   <div class="yawnbox">
-    <img class="yawn" src="bapbi-ngap.jpg" alt="Bắp Bi đang ngáp">
+    <img class="yawn" src="bapbi-ngap.webp" alt="Bắp Bi đang ngáp">
     <p class="say">Cô chú gửi nhanh nha, tụi con đói rồi!</p>
   </div>
-
-  <div class="walker" aria-hidden="true">
-    <img src="mi-soba.jpg" alt="">
-  </div>
+  <div class="walker" aria-hidden="true"><img src="soba-ngoi.webp" alt=""></div>
 </section>
 
 <section id="form">
-  <div class="peek" aria-hidden="true">
-    <img src="soba-ngo.jpg" alt="">
-  </div>
+  <div class="peek" aria-hidden="true"><img src="soba-ngo.webp" alt=""><img class="b" src="bapbi-mat.webp" alt=""></div>
   <div class="top"><span id="stepname"></span><span id="stepnum"></span></div>
   <div class="bar"><i id="prog"></i></div>
   <div class="ticket" id="tk"><i class="code l">231126</i><i class="code r">231126</i>
@@ -282,18 +174,15 @@ main{position:relative;z-index:1}
   <div id="jar-ok" class="jarwrap"></div>
   <div class="ticket dark mid"><i class="code l">231126</i><i class="code r">231126</i>
     <h2>Lời nhắn của cô chú đã được cất vào chiếc lọ rồi!</h2>
-    <p>Cảm ơn cô chú vì đã là một phần trong câu chuyện của mẹ con. Bắp Bi và Thảo Mì Soba sẽ giữ món quà nhỏ này cẩn thận ạ. Meo! ♡</p>
+    <p>Cảm ơn cô chú vì đã là một phần trong câu chuyện của mẹ tụi con. Bắp Bi và Thảo Mì Soba sẽ giữ món quà nhỏ này cẩn thận ạ. Meo! ♡</p>
   </div>
- <div class="yawnbox">
-    <img class="hug" src="bapbi-nam.jpg" alt="Bắp Bi nằm dài">
-    <p class="say">Cảm ơn cô chú nhiều lắm! Meo ♡</p>
+  <p class="say c">Cảm ơn cô chú nhiều lắm! Meo ♡</p>
+  <div class="duo">
+    <img class="hug" src="bapbi-nam.webp" alt="Bắp Bi nằm dài">
+    <img class="sit" src="mi-soba.webp" alt="Thảo Mì Soba ngồi bên cửa sổ">
   </div>
-
   <button class="btn" id="home2">Về trang chủ</button>
-
-  <div class="walker" aria-hidden="true">
-    <img src="mi-soba.jpg" alt="">
-  </div>
+  <div class="walker" aria-hidden="true"><img src="soba-ngoi.webp" alt=""></div>
 </section>
 
 </main>
@@ -330,25 +219,25 @@ const WHEN = ['Càng sớm càng tốt','Trong tháng tới','Trong 3 tháng t�
 const STEPS = [
  {t:'Cô chú là ai ạ?', f:[
   {k:'ten',type:'text',l:'Tên hoặc biệt danh của cô chú',ph:'Cô chú để trống nếu muốn ẩn danh ạ'},
-  {k:'quan_he',type:'text',l:'Cô chú quen mẹ con như thế nào ạ?',ph:'Ví dụ: đẻ ra mẹ con, học/làm cùng mẹ con,…'},
-  {k:'an_danh',type:'check',l:'Gửi ẩn danh (mẹ sẽ không thấy tên cô chú)'}]},
+  {k:'quan_he',type:'text',l:'Cô chú quen mẹ con như thế nào ạ?',ph:'Ví dụ: đẻ ra mẹ con, đồng nghiệp, bạn học…'},
+  {k:'an_danh',type:'check',l:'Gửi ẩn danh (mẹ con sẽ không thấy tên cô chú)'}]},
  {t:'Một kỷ niệm', f:[
   {k:'ky_niem',type:'area',l:'Có kỷ niệm nào với mẹ con mà cô chú vẫn nhớ đến tận bây giờ không ạ?',
-   h:['Một lần cùng cười/cùng khóc thật nhiều','Một khoảnh khắc nhỏ nhưng đáng nhớ','Một điều ngẫu nhiên khiến cô chú nhớ đến Thảo Ly','Một chuyện mà có lẽ chỉ 2 người mới hiểu']}]},
+   h:['Một lần 2 người cùng cười thật nhiều','Một khoảnh khắc nhỏ nhưng đáng nhớ','Một điều ngẫu nhiên khiến cô chú nhớ đến Thảo Ly','Một chuyện mà có lẽ chỉ 2 người mới hiểu']}]},
  {t:'Điều cô chú muốn nói', f:[
   {k:'dieu_muon_noi',type:'area',l:'Nếu có thể nói với mẹ con một điều, cô chú muốn nói điều gì ạ?',
    h:['Một điều cô chú trân trọng ở mẹ con','Một điều cô chú nghĩ Thảo Ly tuổi 26 nên nghe','Một lời khuyên cô chú muốn dành cho mẹ con','Một điều cô chú mong Thảo Ly đừng bao giờ quên']},
-  {k:'dieu_gin_giu',type:'area',l:'Có điều gì ở mẹ con mà cô chú mong mẹ con sẽ luôn giữ gìn trong suốt cuộc đời không ạ?',s:'Câu này không bắt buộc, cô chú có thể bỏ qua.'}]},
+  {k:'dieu_gin_giu',type:'area',l:'Có điều gì ở mẹ con mà cô chú mong Thảo Ly sẽ luôn giữ gìn trong suốt cuộc đời không ạ?',s:'Câu này không bắt buộc, cô chú có thể bỏ qua.'}]},
  {t:'Lời chúc tuổi 26', f:[{k:'loi_chuc',type:'area',l:'Cô chú muốn gửi đến mẹ con lời chúc gì cho tuổi 26 ạ?'}]},
- {t:'Một điều muốn làm cùng Thảo Ly', f:[
-  {k:'hoat_dong',type:'area',l:'Có điều gì cô chú muốn làm cùng mẹ con trong thời gian tới không ạ?',s:'Có thể là một buổi cà phê, một chuyến đi, một bữa ăn ngon, một bộ phim, hay đơn giản là một buổi gặp nhau để kể đủ thứ chuyện.'},
+ {t:'Một điều muốn làm cùng nhau', f:[
+  {k:'hoat_dong',type:'area',l:'Có điều gì cô chú muốn làm cùng mẹ con trong thời gian tới không ạ?',s:'Có thể là một buổi cà phê, một chuyến đi, một bữa ăn ngon, một bộ phim, hay đơn giản là một buổi call/gặp nhau để update cuộc sống.'},
   {k:'thoi_gian',type:'chips',l:'Cô chú muốn thực hiện điều đó khi nào ạ?',o:WHEN},
   {k:'ngay_hen',type:'date',l:'Nếu đã có ngày dự kiến, cô chú có thể chọn ngày ở đây.',s:'Chưa có ngày thì cô chú cứ để trống ạ.'},
   {k:'ghi_chu_hen',type:'text',l:'Có điều gì muốn nhắn thêm về cuộc hẹn này không ạ?'}]},
  {t:'Một lời nhắn cho Thảo Ly tương lai', f:[
-  {k:'loi_nhan_tuong_lai',type:'area',l:'Nếu một ngày nào đó mẹ con mở lại lời nhắn này vào một ngày không vui, cô chú muốn Thảo Ly nhớ điều gì ạ?'}]},
+  {k:'loi_nhan_tuong_lai',type:'area',l:'Nếu một ngày nào đó mẹ con mở lại lời nhắn này vào một ngày không vui hoặc cần động lực, cô chú muốn mẹ con nhớ điều gì ạ?'}]},
  {t:'Một tấm ảnh kỷ niệm', f:[
-  {k:'anh',type:'file',l:'Cô chú có tấm ảnh nào muốn gửi cho mẹ con không ạ?',s:'Ảnh của 2 người, một khoảnh khắc đáng nhớ, hay bất kỳ tấm ảnh nào cô chú thích. Chọn một ảnh JPG, PNG hoặc HEIC, tối đa 5 MB.'},
+  {k:'anh',type:'file',l:'Cô chú có tấm ảnh nào muốn gửi cho mẹ con không ạ? Con mong là có!',s:'Ảnh chung, một khoảnh khắc đáng nhớ, hay bất kỳ tấm ảnh nào cô chú thích. Chọn một ảnh JPG, PNG hoặc HEIC, tối đa 5 MB.'},
   {k:'anh_chu_thich',type:'text',l:'Cô chú muốn viết vài dòng bên dưới tấm ảnh không ạ?'}]}
 ];
 const LAST = STEPS.length; // bước xem lại
@@ -397,7 +286,7 @@ function render(a = true) {
     }));
     if (D.an_danh) h += '<div class="pv"><b>Gửi ẩn danh</b><p>Có, tên của cô chú sẽ không được lưu.</p></div>';
     $('#body').innerHTML = h;
-    $('#next').textContent = 'Gửi lời nhắn cho Thảo Ly ♡';
+    $('#next').textContent = 'Gửi lời nhắn ♡';
     $('#skipnote').style.display = 'none';
   }
 }
@@ -464,7 +353,7 @@ async function send() {
   } catch (e) {
     err('Lời nhắn chưa gửi được. Cô chú kiểm tra mạng rồi bấm gửi lại nhé, những gì cô chú viết vẫn còn nguyên.');
   }
-  SENDING = false; $('#next').disabled = false; $('#next').textContent = 'Gửi lời nhắn cho mẹ ♡';
+  SENDING = false; $('#next').disabled = false; $('#next').textContent = 'Gửi lời nhắn ♡';
 }
 
 $('#jar-home').innerHTML = jar('loop') + [['-40px','0s'],['10px','1.5s'],['-14px','3s']].map(([x, d]) => `<span class="heart" style="--x:${x};--d:${d}">♡</span>`).join('');

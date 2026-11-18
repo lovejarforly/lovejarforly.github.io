@@ -102,7 +102,129 @@ main{position:relative;z-index:1}
 .conf{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:5}
 .conf span{position:absolute;top:-40px;color:var(--red);animation:confall linear both}
 @keyframes confall{to{transform:translateY(112vh) rotate(360deg)}}
-@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+/* ===== BAP BI YAWNING ===== */
+.yawnbox {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 14px;
+  margin: 30px 0 70px;
+}
+
+.yawn, .hug {
+  width: min(40vw, 150px);
+  display: block;
+  object-fit: contain;
+  transform-origin: 50% 100%;
+}
+
+.yawn {
+  animation: yawn 5s ease-in-out infinite;
+}
+
+.hug {
+  animation: rock 3s ease-in-out infinite;
+}
+
+@keyframes yawn {
+  0%,55%,100% { transform: scale(1) rotate(0); }
+  65% { transform: scale(1.1,.93) rotate(-5deg); }
+  75% { transform: scale(.94,1.1) rotate(4deg); }
+  85% { transform: scale(1.05,.98) rotate(-2deg); }
+}
+
+@keyframes rock {
+  50% { transform: rotate(5deg) translateY(-6px); }
+}
+
+/* ===== SPEECH BUBBLE ===== */
+.say {
+  position: relative;
+  max-width: 150px;
+  margin: 0 0 40px;
+  padding: 10px 14px;
+  background: var(--red);
+  color: #fff !important;
+  border-radius: 14px;
+  font-weight: 700;
+  font-size: .85rem;
+  line-height: 1.4;
+  text-align: left;
+}
+
+.say::before {
+  content: "";
+  position: absolute;
+  left: -8px;
+  bottom: 12px;
+  border: 8px solid transparent;
+  border-right-color: var(--red);
+  border-left: 0;
+}
+
+/* ===== SOBA WALKING ===== */
+.walker {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 90px;
+  pointer-events: none;
+  z-index: 3;
+  animation: walk 18s linear infinite;
+}
+
+.walker img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  transform-origin: 50% 100%;
+  animation: waddle .6s ease-in-out infinite;
+}
+
+@keyframes walk {
+  0% { transform: translateX(-100px) scaleX(1); }
+  46% { transform: translateX(calc(100vw + 20px)) scaleX(1); }
+  50% { transform: translateX(calc(100vw + 20px)) scaleX(-1); }
+  96% { transform: translateX(-100px) scaleX(-1); }
+  100% { transform: translateX(-100px) scaleX(1); }
+}
+
+@keyframes waddle {
+  0%,100% { transform: rotate(-8deg); }
+  25%,75% { transform: translateY(-7px) rotate(0); }
+  50% { transform: rotate(8deg); }
+}
+
+/* ===== SOBA PEEKING ===== */
+.peek {
+  height: 62px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  margin-bottom: -6px;
+}
+
+.peek img {
+  width: 118px;
+  height: auto;
+  display: block;
+  object-fit: contain;
+  animation: peek 7s ease-in-out infinite;
+}
+
+@keyframes peek {
+  0%,14% { transform: translateY(105%); }
+  24%,60% { transform: translateY(12%) rotate(0); }
+  34% { transform: translateY(12%) rotate(-5deg); }
+  46% { transform: translateY(12%) rotate(5deg); }
+  70%,100% { transform: translateY(105%); }
+}
+ @media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  .walker{display:none}
+}
 </style>
 </head>
 <body>
@@ -117,7 +239,7 @@ main{position:relative;z-index:1}
     <p class="hello">Meo! Tụi con có một món quà sinh nhật cho mẹ, và cần cô chú giúp.</p>
   </div>
   <div class="cats">
-    <figure class="pola"><span class="bubble">Meo!</span><div class="ph"><span>🐾</span><img src="bapbi.jpg" alt="Bắp Bi" onerror="this.remove()"></div><figcaption>Bắp Bi</figcaption></figure>
+    <figure class="pola"><span class="bubble">Meo!</span><div class="ph"><span>🐾</span><img src="bapbi-mat.jpg" alt="Bắp Bi" onerror="this.remove()"></div><figcaption>Bắp Bi</figcaption></figure>
     <figure class="pola b"><span class="bubble" style="animation-delay:3s">Meo meo ♡</span><div class="ph"><span>🐾</span><img src="mi-soba.jpg" alt="Thảo Mì Soba" onerror="this.remove()"></div><figcaption>Thảo Mì Soba</figcaption></figure>
   </div>
   <div class="ticket"><i class="code l">231126</i><i class="code r">231126</i>
@@ -127,10 +249,22 @@ main{position:relative;z-index:1}
   </div>
   <p class="meta">Sẽ mất khoảng 2–4 phút. Không cần tạo tài khoản. Không phải link lừa đảo.</p>
   <button class="btn" id="start">Gửi một lời nhắn ♡</button>
-  <div class="paws" aria-hidden="true"><span style="--i:0">🐾</span><span style="--i:1">🐾</span><span style="--i:2">🐾</span><span style="--i:3">🐾</span><span style="--i:4">🐾</span><span style="--i:5">🐾</span></div>
+<div class="paws" aria-hidden="true"><span style="--i:0">🐾</span><span style="--i:1">🐾</span><span style="--i:2">🐾</span><span style="--i:3">🐾</span><span style="--i:4">🐾</span><span style="--i:5">🐾</span></div>
+
+  <div class="yawnbox">
+    <img class="yawn" src="bapbi-ngap.jpg" alt="Bắp Bi đang ngáp">
+    <p class="say">Cô chú gửi nhanh nha, tụi con đói rồi!</p>
+  </div>
+
+  <div class="walker" aria-hidden="true">
+    <img src="mi-soba.jpg" alt="">
+  </div>
 </section>
 
 <section id="form">
+  <div class="peek" aria-hidden="true">
+    <img src="soba-ngo.jpg" alt="">
+  </div>
   <div class="top"><span id="stepname"></span><span id="stepnum"></span></div>
   <div class="bar"><i id="prog"></i></div>
   <div class="ticket" id="tk"><i class="code l">231126</i><i class="code r">231126</i>
@@ -150,7 +284,16 @@ main{position:relative;z-index:1}
     <h2>Lời nhắn của cô chú đã được cất vào chiếc lọ rồi!</h2>
     <p>Cảm ơn cô chú vì đã là một phần trong câu chuyện của mẹ con. Bắp Bi và Thảo Mì Soba sẽ giữ món quà nhỏ này cẩn thận ạ. Meo! ♡</p>
   </div>
+ <div class="yawnbox">
+    <img class="hug" src="bapbi-nam.jpg" alt="Bắp Bi nằm dài">
+    <p class="say">Cảm ơn cô chú nhiều lắm! Meo ♡</p>
+  </div>
+
   <button class="btn" id="home2">Về trang chủ</button>
+
+  <div class="walker" aria-hidden="true">
+    <img src="mi-soba.jpg" alt="">
+  </div>
 </section>
 
 </main>

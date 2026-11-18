@@ -71,23 +71,84 @@ label.q{display:block;font-weight:700;font-size:1.05rem;line-height:1.45;margin-
   white-space:normal;   /* cho phép xuống dòng */
   word-break:break-word;
 }
+ .hint-text{
+  font-size:.78rem;
+  line-height:1.6;
+  color:#8a4a4e;
+}
 input[type=text],input[type=date],textarea{width:100%;font:inherit;color:var(--ink);background:#fff;border:2px solid var(--red);border-radius:10px;padding:12px 14px}
 textarea{min-height:170px;resize:vertical}
 input:focus,textarea:focus{outline:3px solid var(--ink);outline-offset:1px}
-.hints,.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
-.hint,.chip{min-height:44px;padding:8px 14px;border-radius:999px;border:2px solid var(--red);background:transparent;color:var(--red);font-size:.9rem;font-weight:600}
-.hint{border-style:dashed}
+.hints,.chips{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  margin-bottom:12px;
+  justify-content:flex-start;
+}
+.hint,.chip{
+  min-height:40px;
+  padding:8px 12px;
+  border-radius:999px;
+  border:2px solid var(--red);
+  background:transparent;
+  color:var(--red);
+  font-size:.78rem;
+  font-weight:600;
+  line-height:1.45;
+}
+
+.hint{
+  border-style:dashed;
+  text-align:left;
+  justify-content:flex-start;
+  white-space:normal;
+  height:auto;
+  max-width:100%;
+}
 .chip[aria-pressed=true]{background:var(--red);color:#fff}
 .check{display:flex;gap:12px;align-items:center;min-height:44px;font-weight:600;color:var(--ink)}
 .check input{width:24px;height:24px;accent-color:var(--red)}
 .nav{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
 .nav .btn{flex:1 1 130px}
 .err{background:#fff;border:2px solid var(--red);border-radius:10px;padding:10px 14px;margin:0 0 16px;color:var(--red);font-weight:600}
-.pv{border-top:2px dashed #d98a8a;padding:12px 0}
-.pv b{display:block;color:var(--red)}
+.pv{
+  border-top:1px dashed #d98a8a;
+  padding:16px 0;
+}
+
+.pv:not(:last-child){
+  margin-bottom:4px;
+}
+
+.pv p{
+  margin-top:6px;
+}
+.pv b{
+  display:block;
+  color:var(--red);
+  font-size:.95rem;
+  margin-bottom:6px;
+  line-height:1.4;
+}
 .pv .skip{font-style:italic;opacity:.75}
-.pv p{margin:2px 0 4px;white-space:pre-wrap}
-.pv button{background:none;border:0;color:var(--red);text-decoration:underline;font-weight:700;padding:6px 0;min-height:44px}
+.pv p{
+  margin:0;
+  white-space:pre-wrap;
+  font-size:.9rem;
+  line-height:1.7;
+  color:#5e4447;
+}
+.pv button{
+  background:none;
+  border:0;
+  color:var(--red);
+  font-size:.8rem;
+  text-decoration:none;
+  font-weight:700;
+  padding:8px 0 0;
+  min-height:auto;
+}
 main{position:relative;z-index:1}
 .drift{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0}
 .drift span{position:absolute;bottom:-40px;color:var(--red);opacity:.22;animation:rise linear infinite}
@@ -565,7 +626,25 @@ input[type=file] {
 .send-scene {
   max-width: 100%;
 }
-@media (max-width: 480px) {
+@media (max-width: 480px) 
+ .pv b{
+  font-size:.88rem;
+}
+
+.pv p{
+  font-size:.84rem;
+  line-height:1.65;
+}
+
+.hint,
+.chip{
+  font-size:.72rem;
+  padding:7px 10px;
+}
+ {.hint-text{
+  font-size:.72rem;
+  line-height:1.65;
+}
   body {
     font-size: 16px;
     line-height: 1.58;
@@ -862,11 +941,12 @@ function render(a = true) {
     $('#skipnote').style.display = '';
   } else {
     $('#stepname').textContent = 'Xem lại';
-    let h = '<h2>Xem lại lời nhắn của cô chú</h2><p class="sub">Cô chú có thể quay lại sửa bất cứ phần nào ạ.</p>';
+    let h = '<h2>Xem lại lời nhắn ♡</h2><p class="sub">Đọc lại một lần trước khi tụi con cất vào lọ nhé.</p>';
     STEPS.forEach((st, i) => st.f.forEach(f => {
       if (f.type === 'check') return;
       const v = f.type === 'file' ? (FILE ? FILE.name : '') : (D[f.k] || '');
-      h += `<div class="pv"><b>${f.l}</b>${v ? `<p>${esc(v)}</p>` : '<p class="skip">Cô chú đã bỏ qua câu này</p>'}<button type="button" data-edit="${i}">Sửa</button></div>`;
+      h += `<div class="pv"><b>${f.l}</b>${v ? `<p>${esc(v)}</p>` : '<p class="skip">Cô chú đã bỏ qua câu này</p>'}<button type="button" data-edit="${i}">✏️ Chỉnh lại</button>
+</div>`;
     }));
     if (D.an_danh) h += '<div class="pv"><b>Gửi ẩn danh</b><p>Có, tên của cô chú sẽ không được lưu.</p></div>';
     $('#body').innerHTML = h;
